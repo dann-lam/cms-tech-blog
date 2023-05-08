@@ -1,0 +1,27 @@
+[
+  {
+    "post_title": "SalPosting",
+    "post_content": "Sal Posted This?",
+    "user_id": "1"
+  },
+  {
+    "post_title": "SalPosting2",
+    "post_content": "Sal Posted This?2",
+    "user_id": "1"
+  },
+  {
+    "post_title": "Lernantino Posting",
+    "post_content": "Lernantino Posted This?",
+    "user_id": "2"
+  },
+  {
+    "post_title": "BlakePosting",
+    "post_content": "Blake Posted This?",
+    "user_id": "5"
+  },
+  {
+    "post_title": "JordanPosting",
+    "post_content": "Jordan Posted This?",
+    "user_id": "4"
+  }
+]
