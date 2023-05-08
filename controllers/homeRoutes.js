@@ -1,19 +1,43 @@
-const router = require('express').Router();
-const { User } = require('../models');
-const withAuth = require('../utils/auth');
+const router = require("express").Router();
+const { User, Comment, Post } = require("../models");
+const withAuth = require("../utils/auth"); //Do we need withAuth for this page? No. So remove it.
 
 // Prevent non logged in users from viewing the homepage
-router.get('/', withAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const userData = await User.findAll({
-      attributes: { exclude: ['password'] },
-      order: [['name', 'ASC']],
+    //Instead of trying to grab our user data, change thyis to
+    //grab our posts
+    //send our posts to our res.render
+    //So that our res.render handlebars can handle renderinglal of our posts.
+
+    const postData = await Post.findAll({
+      attributes: ["id", "post_title", "post_content", "created_at"],
+      include: [
+        {
+          model: Comment,
+          attributes: [
+            "id",
+            "comment_content",
+            "post_id",
+            "user_id",
+            "created_at",
+          ],
+          include: {
+            model: User,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: User,
+          attributes: ["name"],
+        },
+      ],
     });
 
-    const users = userData.map((project) => project.get({ plain: true }));
+    const postMulti = postData.map((project) => project.get({ plain: true }));
 
-    res.render('homepage', {
-      users,
+    res.render("homepage", {
+      posts: postMulti,
       // Pass the logged in flag to the template
       logged_in: req.session.logged_in,
     });
@@ -22,14 +46,14 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
+router.get("/login", (req, res) => {
   // If a session exists, redirect the request to the homepage
   if (req.session.logged_in) {
-    res.redirect('/');
+    res.redirect("/");
     return;
   }
 
-  res.render('login');
+  res.render("login");
 });
 
 module.exports = router;
