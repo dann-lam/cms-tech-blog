@@ -12,7 +12,8 @@ router.get("/", async (req, res) => {
 
     const postData = await Post.findAll({
       attributes: ["id", "post_title", "post_content", "created_at"],
-      include: [
+      include:
+      [
         {
           model: Comment,
           attributes: [
@@ -54,6 +55,39 @@ router.get("/login", (req, res) => {
   }
 
   res.render("login");
+});
+
+router.get("/dashboard", withAuth, async (req, res) => {
+  try {
+    const userData = await User.findByPk(req.session.userId, {
+      include: [
+        {
+          model: Post,
+          include: {
+            model: Comment,
+          },
+        },
+        {
+          model: Comment,
+        },
+      ],
+      attributes: ["username"],
+    });
+    const user = userData.get({ plain: true });
+    const posts = user.posts;
+    const comments = user.comments;
+
+    console.log("\n---- USER DATA ----\n\n", user);
+
+    res.render("dashboard", {
+      user: user,
+      posts: posts,
+      comments: comments,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;

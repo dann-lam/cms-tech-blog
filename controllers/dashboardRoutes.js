@@ -6,15 +6,9 @@
 const router = require("express").Router();
 const { User, Post } = require("../models");
 const withAuth = require("../utils/auth");
+//If it passes our auth check, then we're logged in, no?
+//Get posts.
 
-router.get("/", (req, res) => {
-  // If a session exists, redirect the request to the homepage
-  if (req.session.logged_in) {
-    res.redirect("/");
-    return;
-  }
 
-  res.render("dashboard");
-});
 
 module.exports = router;
