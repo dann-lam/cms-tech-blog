@@ -23,5 +23,15 @@
     "post_title": "JordanPosting",
     "post_content": "Jordan Posted This?",
     "user_id": "4"
+  },
+  {
+    "post_title": "SalPosting3",
+    "post_content": "Sal Posted This3?",
+    "user_id": "1"
+  },
+  {
+    "post_title": "AmikoPOsting1",
+    "post_content": "AmikoPosted This?",
+    "user_id": "3"
   }
 ]
