@@ -1,4 +1,5 @@
 const loginFormHandler = async (event) => {
+  console.log("Hi! You clicked on login!");
   // Stop the browser from submitting the form so we can do so with JavaScript
   event.preventDefault();
 
@@ -14,8 +15,10 @@ const loginFormHandler = async (event) => {
     });
 
     if (response.ok) {
+      console.log("Login successful!");
       document.location.replace("/dashboard");
     } else {
+      console.log("Failed to log in!");
       alert("Failed to log in");
     }
   }

@@ -36,6 +36,11 @@ WHEN I choose to sign up
 THEN I am prompted to create a username and password
 WHEN I click on the sign-up button
 
+// I need to check to see if the signup actually creates a new entry into the database...
+//I need to check to see if the route is performing its expected work.
+
+
+
 WHEN I click on the homepage option in the navigation
 THEN I am taken to the homepage and presented with existing blog posts that include the post title and the date created
 WHEN I click on an existing blog post

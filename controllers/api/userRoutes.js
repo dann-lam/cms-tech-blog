@@ -1,6 +1,30 @@
 const router = require("express").Router();
 const { User } = require("../../models");
 
+//Route for new users
+router.post("/signup", (req, res) => {
+  console.log("PostRouteHit!");
+  User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  })
+    .then((userData) => {
+      req.session.save(() => {
+        console.log("Saving session...");
+        req.session.user_id = userData.id;
+        req.session.name = userData.name;
+        req.session.logged_in = true;
+
+        res.json(userData);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
 //Route for logging in.
 router.post("/login", (req, res) => {
   User.findOne({
@@ -10,7 +34,7 @@ router.post("/login", (req, res) => {
   })
     .then((userData) => {
       if (!userData) {
-        res.status(400).json({ message: "No user with that username!" });
+        res.status(400).json({ message: "No user with that name!" });
         return;
       }
       const validPassword = userData.checkPassword(req.body.password);
@@ -42,28 +66,6 @@ router.post("/logout", (req, res) => {
   } else {
     res.status(404).end();
   }
-});
-
-//Route for new users
-router.post("/", (req, res) => {
-  User.create({
-    username: req.body.username,
-    password: req.body.password,
-  })
-
-    .then((userData) => {
-      req.session.save(() => {
-        req.session.user_id = userData.id;
-        req.session.username = userData.username;
-        req.session.logged_in = true;
-
-        res.json(userData);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
 });
 
 module.exports = router;
